@@ -45,9 +45,7 @@ int format_desc(char **desc, int thread_id, struct addrinfo **addrinfos, size_t 
     return 0;
 
 fail:
-    if (str != NULL) {
-        free(str);
-    }
+    free(str);
     return 1;
 }
 

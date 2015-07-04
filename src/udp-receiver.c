@@ -151,15 +151,9 @@ static void * recv_thread_main(void *ptr) {
     }
 
 done:
-    if (poll_fds != NULL) {
-        free(poll_fds);
-    }
-    if (data != NULL) {
-        free(data);
-    }
-    if (desc != NULL) {
-        free(desc);
-    }
+    free(poll_fds);
+    free(data);
+    free(desc);
     return NULL;
 }
 
@@ -244,15 +238,9 @@ static void * recvmsg_thread_main(void *ptr) {
     }
 
 done:
-    if (poll_fds != NULL) {
-        free(poll_fds);
-    }
-    if (data != NULL) {
-        free(data);
-    }
-    if (desc != NULL) {
-        free(desc);
-    }
+    free(poll_fds);
+    free(data);
+    free(desc);
     return NULL;
 }
 
@@ -349,21 +337,11 @@ static void * recvmmsg_thread_main(void *ptr) {
     }
 
 done:
-    if (poll_fds != NULL) {
-        free(poll_fds);
-    }
-    if (data != NULL) {
-        free(data);
-    }
-    if (iovs != NULL) {
-        free(iovs);
-    }
-    if (msgs != NULL) {
-        free(msgs);
-    }
-    if (desc != NULL) {
-        free(desc);
-    }
+    free(poll_fds);
+    free(data);
+    free(iovs);
+    free(msgs);
+    free(desc);
     return NULL;
 }
 #endif
@@ -400,6 +378,11 @@ static void app_destroy(struct app *app) {
 
         if (app->shutdown_pipe[1] != -1) {
             close(app->shutdown_pipe[1]);
+        }
+
+        for (i = 0; i < app->num_threads; i++) {
+            free(app->thread_ctx[i].addrinfos);
+            free(app->thread_ctx[i].fds);
         }
 
         free(app->threads);

@@ -146,12 +146,8 @@ done:
         }
         free(fds);
     }
-    if (data != NULL) {
-        free(data);
-    }
-    if (desc != NULL) {
-        free(desc);
-    }
+    free(data);
+    free(desc);
     return NULL;
 }
 
@@ -223,12 +219,8 @@ done:
     if (fd != -1) {
         close(fd);
     }
-    if (data != NULL) {
-        free(data);
-    }
-    if (desc != NULL) {
-        free(desc);
-    }
+    free(data);
+    free(desc);
     return NULL;
 }
 
@@ -318,18 +310,10 @@ done:
     if (fd != -1) {
         close(fd);
     }
-    if (data != NULL) {
-        free(data);
-    }
-    if (iovs != NULL) {
-        free(iovs);
-    }
-    if (msgs != NULL) {
-        free(msgs);
-    }
-    if (desc != NULL) {
-        free(desc);
-    }
+    free(data);
+    free(iovs);
+    free(msgs);
+    free(desc);
     return NULL;
 }
 #endif
@@ -350,6 +334,10 @@ static void app_destroy(struct app *app) {
 
         if (app->stats_mutex_initialized) {
             pthread_mutex_destroy(&app->stats_mutex);
+        }
+
+        for (i = 0; i < app->num_threads; i++) {
+            free(app->thread_ctx[i].addrinfos);
         }
 
         free(app->threads);
