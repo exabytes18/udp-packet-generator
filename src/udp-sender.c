@@ -233,6 +233,7 @@ done:
 }
 
 
+#ifdef HAVE_SENDMMSG
 static void * sendmmsg_thread_main(void *ptr) {
     struct thread_ctx *thread_ctx = ptr;
     int i, j, packets_sent, fd = -1;
@@ -331,6 +332,7 @@ done:
     }
     return NULL;
 }
+#endif
 
 
 static void app_destroy(struct app *app) {
